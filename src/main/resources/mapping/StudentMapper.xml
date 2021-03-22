@@ -1,0 +1,36 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.Dao.StudentDao">
+    <resultMap id="studentTeacherMap" type="student">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="tid" column="tid"/>
+         <association property="teacher" javaType="teacher">
+             <id property="id" column="id"/>
+             <result property="name" column="name"/>
+         </association>
+    </resultMap>
+    <select id="findByName" parameterType="string" resultMap="studentTeacherMap">
+        select s.id,s.name,t.name tname
+        from student s,teacher t
+        where s.name = #{name} and s.tid = t.id
+    </select>
+
+    <select id="findAll" resultType="student">
+        select *
+        from student
+    </select>
+
+    <select id="findByAddress" parameterType="string" resultType="student">
+        select *
+        from student
+        where name like '%${value}%'
+    </select>
+
+    <select id="findByAddrss2" parameterType="string" resultType="student">
+        select *
+        from student
+        where name like #{address}
+    </select>
+</mapper>

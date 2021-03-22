@@ -1,0 +1,19 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.Dao.TeacherDao">
+    <resultMap id="TeacherUserMap" type="teacher">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <collection property="students" ofType="student">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="tid" property="tid"/>
+        </collection>
+    </resultMap>
+    <select id="findByName" parameterType="string" resultMap="TeacherUserMap">
+        select t.id,t.name,s.name,s.tid
+        from teacher t ,student s
+        where t.name = #{name} and t.id = s.tid
+    </select>
+</mapper>
